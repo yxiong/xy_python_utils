@@ -1,2 +1,3 @@
 *.pyc
 .DS_Store
+/xy_python_utils.egg-info

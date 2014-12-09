@@ -4,7 +4,7 @@ xy_python_utils
 Python utilities by Ying Xiong.
 
 Author: Ying Xiong.  
-Created: Nov 25, 2014.
+Created: Feb 04, 2013.
 
 Usage
 -----
