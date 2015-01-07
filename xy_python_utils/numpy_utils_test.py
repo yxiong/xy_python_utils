@@ -10,7 +10,7 @@ from unittest_utils import *
 
 class NumpyUtilsTest(unittest.TestCase):
     """Unit test for NumpyUtils."""
-    def testNull(self):
+    def test_null(self):
         np.random.seed(0)
         tol = 1e-12
         A = np.random.randn(3)

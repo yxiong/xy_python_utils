@@ -1,4 +1,5 @@
-__all__  = ["matplotlib_utils",
+__all__  = ["image_utils",
+            "matplotlib_utils",
             "numerical_differentiation",
             "numpy_utils",
             "os_utils",

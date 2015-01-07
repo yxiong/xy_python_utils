@@ -99,3 +99,26 @@ def axes_equal_3d(ax=None):
     ax.set_xlim(x_mid - max_range/2.0, x_mid + max_range/2.0)
     ax.set_ylim(y_mid - max_range/2.0, y_mid + max_range/2.0)
     ax.set_zlim(z_mid - max_range/2.0, z_mid + max_range/2.0)
+
+def implay(volume, fps=20, ax=None):
+    """Play a sequence of image in `volume` as a video.
+
+    Parameters
+    ----------
+    volume: the video volume to be played.
+        Its size can be either MxNxK (for single-channel image per frame) or
+        MxNxCxK (for multi-channel image per frame).
+
+    fps: the frame rate of the video.
+
+    ax: the axes in which the video to be played.
+        If not specified, default to `plt.gca()`.
+
+    """
+    if not ax:
+        ax = plt.gca()
+    num_frames = volume.shape[-1]
+    for i in xrange(num_frames):
+        ax.cla()
+        ax.imshow(volume[...,i])
+        plt.pause(1. / fps)
