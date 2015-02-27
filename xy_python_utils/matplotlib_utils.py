@@ -34,9 +34,6 @@ def impixelinfo(ax=None, image=None):
     if len(ax.images) == 0:
         print "No image in axes to visualize."
         return
-    elif len(ax.images) > 1:
-        print "Warning: more than one images in the axes, " + \
-            "visualizing the last one."
     # Set default 'image' if not specified.
     if not image:
         image = ax.images[-1].get_array()
@@ -122,3 +119,100 @@ def implay(volume, fps=20, ax=None):
         ax.cla()
         ax.imshow(volume[...,i])
         plt.pause(1. / fps)
+
+def tight_subplot(num_rows, num_cols, plot_index,
+                  gap = 0.01, marg_h = 0.01, marg_w = 0.01, fig = None):
+    """Add a tight subplot axis to the current (or a given) figure.
+
+    Parameters
+    ----------
+    num_rows: number of rows.
+
+    num_cols: number of columns.
+
+    plot_index: the index to the subplot.
+
+    gap: the gap between axes, scalar or 2-tuple `(gap_h, gap_w)`.
+        Value should be between (0, 1).
+
+    marg_h: the margins in height, scalar or 2-tuple `(lower, upper)`.
+        Value should be between (0, 1).
+
+    marg_w: the margins in width, scalar or 2-tuple `(left, right)`.
+        Value should be between (0, 1).
+
+    fig: figure to which the new axes to be added to
+        Default to `plt.gcf()` if not specified.
+
+    Returns
+    -------
+    The newly added axes.
+
+    """
+    if not hasattr(gap, "__len__"):
+        gap = (gap, gap)
+    if not hasattr(marg_h, "__len__"):
+        marg_h = (marg_h, marg_h)
+    if not hasattr(marg_w, "__len__"):
+        marg_w = (marg_w, marg_w)
+    if not fig:
+        fig = plt.gcf()
+
+    m = int(math.ceil(float(plot_index) / num_cols))
+    n = plot_index - (m-1) * num_cols
+
+    height = float(1 - marg_h[0] - marg_h[1] - gap[0] * (num_rows-1)) / num_rows
+    width = float(1 - marg_w[0] - marg_w[1] - gap[1] * (num_cols-1)) / num_cols
+
+    bottom = marg_h[0] + (height + gap[0]) * (num_rows - m)
+    left = marg_w[0] + (width + gap[1]) * (n - 1)
+    return fig.add_axes((left, bottom, width, height))
+
+def imshow(ax, img, xlim=None, ylim=None, **kw):
+    """Enhance `ax.imshow` with coordinate limits.
+
+    Parameters
+    ----------
+    ax: the axes in which an image will be drawn.
+
+    img: the 2D image to be drawn.
+
+    xlim, ylim: the horizontal coordinate limits of the image.
+        This will set the `extent` parameter of `ax.imshow`, which is relatively
+        inconvenient to set directly because of the half-pixel issue.
+        Default: (0, `num_cols`-1), (0, `num_rows`-1).
+
+    **kw: other parameters to be passed to `ax.imshow`.
+        The `extent` will be ignored if presented.
+
+    Returns
+    -------
+    None
+
+    """
+    if not xlim:
+        xlim = (0, img.shape[1]-1)
+    if not ylim:
+        ylim = (0, img.shape[0]-1)
+
+    xmin, xmax = xlim
+    ymin, ymax = ylim
+    dx = float(xmax - xmin) / img.shape[1]
+    dy = float(ymax - ymin) / img.shape[0]
+    # Note the order: (left, right, bottom, top)
+    kw["extent"] = (xmin-dx/2.0, xmax+dx/2.0, ymax+dy/2.0, ymin-dy/2.0)
+
+    ax.imshow(img, **kw)
+
+def draw_with_fixed_lims(ax, draw_fcn):
+    """Save the `xlim` and `ylim` of `ax` before a drawing action, and restore
+    them after the drawing. This is typically useful when one first does an
+    `imshow` and then makes some annotation with `plot`, which will change the
+    limits if not using this function.
+
+    """
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+    draw_fcn(ax)
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
