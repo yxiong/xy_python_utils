@@ -4,4 +4,5 @@ __all__  = ["image_utils",
             "numpy_utils",
             "os_utils",
             "quaternion",
-            "unittest_utils"]
+            "unittest_utils",
+            "utils"]
