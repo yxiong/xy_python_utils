@@ -47,6 +47,10 @@ class Range():
         """Create an iterator."""
         return RangeIterator(self, 0)
 
+    def __repr__(self):
+        return "Range(start=%s, stop=%s, step=%s)" % \
+            (self.start, self.stop, self.step)
+
 class RangeIterator():
     def __init__(self, range_, index):
         self.range_ = range_
@@ -57,7 +61,7 @@ class RangeIterator():
         return self
 
     def next(self):
-        if (self.index > self.max_size):
+        if (self.index >= self.max_size):
             raise StopIteration()
         else:
             index = self.index

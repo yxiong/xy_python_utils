@@ -25,6 +25,8 @@ class RangeTest(unittest.TestCase):
             self.assertEqual(x, 10 + i)
         for i, x in enumerate(Range(1.0, -5.51, -0.1)):
             self.assertEqual(x, 1.0 - i*0.1)
+        r = Range(-10, 0.001, 0.1)
+        self.assertEqual(len(r), len(list(r)))
 
 if __name__ == "__main__":
     unittest.main()
