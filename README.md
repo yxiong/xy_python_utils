@@ -1,6 +1,9 @@
 xy_python_utils
 ===============
 
+[<img src="https://api.travis-ci.org/yxiong/xy_python_utils.svg?branch=master"
+      alt="Build Status">](https://travis-ci.org/yxiong/xy_python_utils)
+
 Python utilities by Ying Xiong.
 
 Author: Ying Xiong.  
@@ -11,7 +14,7 @@ Usage
 
 Install prerequisites:
 
-    pip install setuptools numpy matplotlib
+    pip install setuptools numpy scipy matplotlib pillow
 
 
 Install the package in development mode:

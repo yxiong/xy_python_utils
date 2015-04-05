@@ -20,7 +20,7 @@ class ImageUtilsTest(unittest.TestCase):
 
     def test_create_icon_mosaic(self):
         tol = 1e-6
-        icon = imread("test_data/images/testorig.jpg")
+        icon = imread("test_data/images/testorig.png")
         mosaic = create_icon_mosaic([icon] * 6)
         mosaic_ref = imread("test_data/images/testorig-mosaic.png")
         check_near(mosaic, mosaic_ref, tol)
