@@ -9,8 +9,9 @@ before_install:
   - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
 
 install:
-  - pip install setuptools pillow
+  - pip install setuptools pillow Sphinx
   - python setup.py develop
 
 script:
-  - cd xy_python_utils; python -m unittest discover -p "*_test.py"
+  - cd xy_python_utils; python -m unittest discover -p "*_test.py"; cd ..
+  - cd docs; make html; cd ..
