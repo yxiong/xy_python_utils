@@ -3,8 +3,7 @@ Getting Started
 
 Install prerequisites::
 
-  pip install numpy scipy matplotlib pillow
-  pip install setuptools Sphinx numpydoc
+  pip install -r requirements.txt
 
 Install this package in development mode::
 

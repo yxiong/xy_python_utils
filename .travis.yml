@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
 
 install:
-  - pip install setuptools pillow Sphinx numpydoc
+  - pip install -r requirements.txt
   - python setup.py develop
 
 script:
