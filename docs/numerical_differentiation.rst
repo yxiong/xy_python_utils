@@ -1,4 +1,4 @@
-numerical_differentiation
+Numerical Differentiation
 =========================
 
 .. automodule:: numerical_differentiation

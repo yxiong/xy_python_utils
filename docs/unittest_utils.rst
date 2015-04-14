@@ -1,5 +1,5 @@
-unittest_utils
-==============
+Unittest Utilities
+==================
 
 .. automodule:: unittest_utils
    :members:

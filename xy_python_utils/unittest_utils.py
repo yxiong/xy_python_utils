@@ -9,9 +9,12 @@ import numpy as np
 
 def check_near(v1, v2, tol, raise_exception=True):
     """Check whether scalar/vector/matrix 'v1' and 'v2' are close to each other
-    under tolerance tol, in the sense that
+    under tolerance tol, in the sense that::
+
+
         (absolute)   ||v1 - v2|| <= tol,   **or**
         (relative)   ||v1 - v2|| / max(||v1||, ||v2||, eps) <= tol,
+
     where ||.|| is the Frobenius norm."""
     diff = v1 - v2
     errAbs = np.linalg.norm(diff)
@@ -58,29 +61,39 @@ def check_near_rel(v1, v2, tol, raise_exception=True):
 
 def check_gradient(fcn, dfcn, N, x0=None, dx=None, delta=1e-4, m=0.01, M=10,
                    raise_exception=True):
-    """Numerically check whether 'dfcn' calculates the gradient of 'fcn', or more
-    specifically, whether the following quantities are close to each other
+    """Numerically check whether 'dfcn' calculates the gradient of 'fcn'.
+
+    More specifically, this function checks whether the following quantities are
+    close to each other
+
       * f(x) - f(x0)
       * (x-x0) \cdot f'(x0)
-    We consider them to be close enough if **either one** of the following is true
+
+    We consider them to be close enough if **either one** of the following is
+    true
+
       1. the absolute difference is smaller than (m * ||x-x0||);
       2. the relative difference is smaller than (M * ||x-x0||).
 
-    INPUT:
-      fcn: a function handler with a single (vector or scalar) input and a
-           scalar output.
-      dfcn: a function handler with a single (vector or scalar) input and a
-            vector output for gradient of 'fcn'.
-      [NOTE]: Another option is to let dfcn=None (or something else that is not
-              callable, e.g. [] or True), and fcn return a 2-tuple for both
-              fucntion value and its gradient.
-      N: the dimensionality of input to the fucntion, which is a Nx1 vector.
-      x0: the initial input point evaluated by the function, with default
-          {randn(N)}.
-      dx, delta: the direction of evaluation point moves, such that
-              x = x0 + delta*dx
-          with 'dx' a unit Nx1 vector and 'delta' a scalar.
-      m, M: the thresholds described above.
+    Parameters
+    ----------
+    fcn: a function handler with a single (vector or scalar) input and a
+         scalar output.
+    dfcn: a function handler with a single (vector or scalar) input and a
+        vector output for gradient of 'fcn'.
+        [NOTE]: Another option is to let dfcn=None (or something else that is
+        not callable, e.g. [] or True), and fcn return a 2-tuple for both
+        fucntion value and its gradient.
+    N: the dimensionality of input to the fucntion, which is a Nx1 vector.
+    x0: the initial input point evaluated by the function, with default
+        {randn(N)}.
+    dx, delta: the direction of evaluation point moves, such that::
+
+            x = x0 + delta*dx
+
+        with 'dx' a unit Nx1 vector and 'delta' a scalar.
+    m, M: the thresholds described above.
+
     """
     # Set default.
     if (not x0):
@@ -119,23 +132,29 @@ def check_gradient(fcn, dfcn, N, x0=None, dx=None, delta=1e-4, m=0.01, M=10,
 
 def check_jacobian(fcn, dfcn, N, x0=None, dx=None, delta=1e-4, m=0.01, M=10,
                    raise_exception=True):
-    """Numerically check whether 'dfcn' calculates the Jacobian of 'fcn', or more
-    specifically, whether the following vectors are close to each other
+    """Numerically check whether 'dfcn' calculates the Jacobian of 'fcn'.
+
+    More specifically, whether the following vectors are close to each other
+
       * f(x) - f(x0)
       * J(x0) \cdot (x-x0)
-    We consider them to be close enough if **either one** of the following is true
+
+    We consider them to be close enough if **either one** of the following is
+    true
+
       1. "absolutely" close with tolerance m*||x-x0|| (see 'check_near_abs');
       2. "relatively" close with tolerance M*||x-x0|| (see 'check_near_rel').
 
-    INPUT:
-      fcn: a function handler with a single (vector or scalar) input and a
-           vector output.
-      dfcn: a function handler with a single (vector or scalar) input and a
-            matrix output for Jacobian of 'fcn'.
-      [NOTE]: Another option is to let dfcn=None (or something else that is not
-              callable, e.g. [] or True), and fcn return a 2-tuple for both
-              fucntion value and its Jacobian.
-      The rest is the same as "check_gradient".
+    Parameters
+    -----------
+    fcn: a function handler with a single (vector or scalar) input and a
+         vector output.
+    dfcn: a function handler with a single (vector or scalar) input and a
+        matrix output for Jacobian of 'fcn'.
+        [NOTE]: Another option is to let dfcn=None (or something else that is
+        not callable, e.g. [] or True), and fcn return a 2-tuple for both
+        fucntion value and its Jacobian.
+    The rest is the same as "check_gradient".
     """
     # Set default.
     if (not x0):

@@ -3,6 +3,8 @@
 # Author: Ying Xiong.
 # Created: Mar 05, 2015.
 
+"""Some general utility classes and functions."""
+
 import math
 
 class Range():
@@ -11,7 +13,8 @@ class Range():
     also supports floating point parameters.
 
     Note the rounding effect when using floating point parameters. The suggested
-    way is to pad an `epsilon` at the stop point
+    way is to pad an `epsilon` at the stop point::
+
         Range(1.5, 1.8001, 0.3)   # 1.8 will be included.
         Range(1.5, 1.7999, 0.3)   # 1.5 will be excluded.
         Range(1.5, 1.8, 0.3)      # 1.8 should be excluded, but might not be

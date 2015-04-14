@@ -1,4 +1,4 @@
-quaternion
+Quaternion
 ==========
 
 .. automodule:: quaternion

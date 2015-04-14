@@ -1,5 +1,5 @@
-utils
-=====
+General Utilities
+=================
 
 .. automodule:: utils
    :members:

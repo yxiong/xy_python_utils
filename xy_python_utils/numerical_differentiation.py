@@ -7,20 +7,26 @@ import numpy as np
 
 def numerical_jacobian(fcn, x0, dx=1e-6, method=0, return_f0=False):
     """Compute the numerical Jacobian matrix of a given function.
-    USAGE:
-        J = numerical_jacobian(fcn, x0, ...)
-        (J, f0) = numerical_jacobian(fcn, x0, ..., return_f0=True)
-    INPUT:
-        fcn: a function handle that takes an N-vector as input and return an M-vector.
-        x0: an input N-vector.
-        dx: a scalar for small change in x0.
-        method: a integer or string with following options:
-            {0, 'forward'}: compute the Jacobian as (f(x0+dx)-f(x0))/dx.
-             1, 'central' : compute the Jacobian as (f(x0+dx)-f(x0-dx))/2/dx.
-        return_f0: if set to true, also return fcn(x0).
-    OUTPUT:
-        J: the MxN Jacobian matrix.
-        f0: the function value at x0.
+
+    Parameters
+    ----------
+    fcn: a function handle that takes an N-vector as input and return an M-vector.
+    x0: an input N-vector.
+    dx: a scalar for small change in x0.
+    method: a integer or string with following options:
+      * {0, 'forward'}: compute the Jacobian as (f(x0+dx)-f(x0))/dx.
+      * 1, 'central' : compute the Jacobian as (f(x0+dx)-f(x0-dx))/2/dx.
+    return_f0: if set to true, also return fcn(x0).
+
+    Returns
+    -------
+    J: the MxN Jacobian matrix.
+    f0: the function value at x0.
+
+    Examples
+    --------
+    >>> J = numerical_jacobian(fcn, x0, ...)
+    >>> (J, f0) = numerical_jacobian(fcn, x0, ..., return_f0=True)
     """
     N = len(x0)
     if method==0 or method=="forward":

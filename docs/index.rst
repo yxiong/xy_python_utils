@@ -1,13 +1,12 @@
 Welcome to xy_python_utils's documentation!
 ===========================================
 
-Contents:
+Python utilities by Ying Xiong.
 
 .. toctree::
    :maxdepth: 2
 
-   intro
-   tutorial
+   getting_started
    image_utils
    matplotlib_utils
    numerical_differentiation

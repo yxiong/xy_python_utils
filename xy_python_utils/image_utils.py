@@ -3,6 +3,8 @@
 # Author: Ying Xiong.
 # Created: Dec 11, 2014.
 
+"""Some utility functions to handle images."""
+
 import math
 import scipy
 import numpy as np
@@ -71,7 +73,7 @@ def create_icon_mosaic(icons, icon_shape=None,
 
     Returns
     -------
-    mosaic_image: the created mosaic image.
+    The created mosaic image.
 
     """
     # Set default parameters.

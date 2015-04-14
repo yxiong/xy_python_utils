@@ -1,5 +1,5 @@
-os_utils
-========
+OS Utilities
+============
 
 .. automodule:: os_utils
    :members:

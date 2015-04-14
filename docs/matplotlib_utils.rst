@@ -1,5 +1,5 @@
-matplotlib_utils
-================
+Matplotlib Utilities
+====================
 
 .. automodule:: matplotlib_utils
    :members:

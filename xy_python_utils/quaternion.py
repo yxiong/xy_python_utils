@@ -3,7 +3,7 @@
 # Author: Ying Xiong.
 # Created: Mar 18, 2014.
 
-"""quaternion.py --- Utility functions for quaternion and spatial rotation.
+"""Utility functions for quaternion and spatial rotation.
 
 A quaternion is represented by a 4-vector 'q' as
   q = q[0] + q[1]*i + q[2]*j + q[3]*k.
@@ -47,8 +47,10 @@ def quatRecip(q):
 
 def quatFromAxisAng(ax, theta):
     """Get a quaternion that performs the rotation around axis 'ax' for angle
-    'theta', given as
+    'theta', given as::
+
         q = (r, v) = (cos(theta/2), sin(theta/2)*ax).
+
     Note that the input 'ax' needs to be a 3x1 unit vector."""
     return np.append(np.cos(theta/2), np.sin(theta/2)*ax)
 
@@ -90,9 +92,11 @@ def quatToRotMatx(q):
     return R
 
 def rotVecByQuat(u, q):
-    """Rotate a 3-vector 'u' according to the quaternion 'q'. The output 'v' is also
-    a 3-vector such that
+    """Rotate a 3-vector 'u' according to the quaternion 'q'. The output 'v' is
+    also a 3-vector such that::
+
         [0; v] = q * [0; u] * q^{-1}
+
     with Hamilton product."""
     v = quatHProd(quatHProd(q, np.append(0, u)), quatRecip(q))
     return v[1:]

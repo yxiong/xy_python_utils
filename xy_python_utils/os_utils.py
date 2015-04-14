@@ -39,18 +39,23 @@ def rm_rf(path):
 def cp_r(src, dst):
     """
     Same effect as the unix command 'cp -r src dst', supporting the followings:
-      1. cp_r("/path/to/src_file", "/path/to/"dst_file")
-    The 'src_file' is a single file, and 'dst_file' is created or overwritten if
-    already exists.
-      2. cp_r("/path/to/src_folder", "/path/to/dst_folder")
-    The 'dst_folder' is a single folder, and 'dst_folder' will be created if not
-    already exists, otherwise a "/path/to/dst_folder/src_folder" will be created.
-      3. cp_r("/path/to/src", "/path/to/dst_folder")
-    The 'src' can be either a file or a folder, and can contain wildcard characters
-    (e.g. '*'), and the 'dst_folder' must already exist.
-      4. cp_r(["/path/to/src1", "/path/to/src2", ...], "/path/to/dst_folder")
-    The 'src' can be anything as the previous syntax, and the first argument can
-    be either list or tuple. The 'dst_folder' must already exist.
+
+    #. `cp_r("/path/to/src_file", "/path/to/"dst_file")`:
+       The 'src_file' is a single file, and 'dst_file' is created or overwritten
+       if already exists.
+
+    #. `cp_r("/path/to/src_folder", "/path/to/dst_folder")`:
+       The 'dst_folder' is a single folder, and 'dst_folder' will be created if
+       not already exists, otherwise a "/path/to/dst_folder/src_folder" will be
+       created.
+
+    #. `cp_r("/path/to/src", "/path/to/dst_folder")`:
+       The 'src' can be either a file or a folder, and can contain wildcard
+       characters (e.g. '*'), and the 'dst_folder' must already exist.
+
+    #. `cp_r(["/path/to/src1", "/path/to/src2", ...], "/path/to/dst_folder")`:
+       The 'src' can be anything as the previous syntax, and the first argument
+       can be either list or tuple. The 'dst_folder' must already exist.
     """
     if (not os.path.exists(dst)):
         # Case 1 or 2.
