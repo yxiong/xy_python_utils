@@ -25,5 +25,10 @@ class ImageUtilsTest(unittest.TestCase):
         mosaic_ref = imread("test_data/images/testorig-mosaic.png")
         check_near(mosaic, mosaic_ref, tol)
 
+    def test_image_size_from_file(self):
+        imgSize = image_size_from_file("test_data/images/testorig.jpg")
+        self.assertEqual(imgSize[0], 149)
+        self.assertEqual(imgSize[1], 227)
+
 if __name__ == "__main__":
     unittest.main()

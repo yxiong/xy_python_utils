@@ -6,8 +6,9 @@
 """Some utility functions to handle images."""
 
 import math
-import scipy
 import numpy as np
+import PIL
+import scipy
 
 def imresize(img, size):
     """Resize the input image.
@@ -29,9 +30,9 @@ def imresize(img, size):
         num_rows, num_cols = size
         assert (num_rows > 0) or (num_cols > 0)
         if num_rows < 0:
-            num_rows = num_cols * img.shape[2] / img.shape[1]
+            num_rows = num_cols * img.shape[0] / img.shape[1]
         if num_cols < 0:
-            num_cols = num_rows * img.shape[1] / img.shape[2]
+            num_cols = num_rows * img.shape[1] / img.shape[0]
     else:
         num_rows = int(round(img.shape[0] * size))
         num_cols = int(round(img.shape[1] * size))
@@ -117,3 +118,23 @@ def create_icon_mosaic(icons, icon_shape=None,
             mosaic_image[iStart:iStart+icon_shape[0],
                          jStart:jStart+icon_shape[1],c] = empty_color[c]
     return mosaic_image
+
+def image_size_from_file(filename):
+    """Read the image size from a file.
+
+    This function only loads but the image header (rather than the whole
+    rasterized data) in order to determine its dimension.
+
+    Parameters
+    ----------
+    filename: string
+        The input image file.
+
+    Returns
+    -------
+    The 2-tuple for image size `(num_rows, num_cols)`.
+
+    """
+    with PIL.Image.open(filename) as img:
+        width, height = img.size
+    return height, width
