@@ -11,20 +11,21 @@ import shutil
 import os
 
 def mkdir_p(path, mode = 0o777):
-    """mkdir_p(path[, mode=0o777])
+    """Create a leaf directory 'path' and all intermediate ones.
 
-    Create a leaf directory 'path' and all intermediate ones, and no error will
-    be reported if the directory already exists.
-    Same effect as the unix command 'mkdir -p path'.
+    No error will be reported if the directory already exists.  Same effect as
+    the unix command 'mkdir -p path'.
+
     """
     if (not os.path.isdir(path)):
         os.makedirs(path, mode)
 
 def rm_rf(path):
-    """
-    Remove a file or a directory, recursively. No error will be reported if
-    'path' does not exist. The 'path' can be a list or tuple.
-    Same effect as the unix command 'rm -rf path'.
+    """Remove a file or a directory, recursively.
+
+    No error will be reported if 'path' does not exist. The 'path' can be a list
+    or tuple.  Same effect as the unix command 'rm -rf path'.
+
     """
     if (type(path) in [list, tuple]):
         for p in path:
@@ -77,8 +78,12 @@ def cp_r(src, dst):
                 raise Exception("File '%s' cannot be found.\n" % src)
 
 def _do_cp_r(src, dst):
-    """A helper function for cp_r. The 'src' has to be a single file or folder, and
-    'dst must not already exist."""
+    """A helper function for cp_r.
+
+    The 'src' has to be a single file or folder, and 'dst' must not already
+    exist.
+
+    """
     try:
         shutil.copytree(src, dst)
     except OSError as exc:

@@ -29,7 +29,7 @@ def meshgrid_nd(*arrs):
 
     Returns
     -------
-    X, Y, Z, ...: ndarray
+    X, Y, Z, ... : ndarray
         Multi-dimensional arrays of shape (len(x), len(y), len(z), ...). Note
         that there is a discrepancy to the original 2D meshgrid, where the
         output array shape is swapped, i.e. (len(y), len(x)). Specifically, if::

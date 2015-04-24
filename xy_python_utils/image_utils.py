@@ -15,9 +15,10 @@ def imresize(img, size):
 
     Parameters
     ----------
-    img: the input image to be resized.
+    img: ndarray
+        The input image to be resized.
 
-    size: a scalar for `scale` or a 2-tuple for `(num_rows, num_cols)`.
+    size: a scalar for `scale` or a 2-tuple for `(num_rows, num_cols)`
         One of the `num_rows` or `num_cols` can be -1, which will be inferred
         such that the output image has the same aspect ratio as the input.
 
@@ -53,24 +54,30 @@ def create_icon_mosaic(icons, icon_shape=None,
 
     Parameters
     ----------
-    icons: a list of icons to be put together for mosaic.
-        Currently we require all icons to be multi-channel images of the same
-        size.
+    icons: a list of `ndarray`s
+        A list of icons to be put together for mosaic. Currently we require all
+        icons to be multi-channel images of the same size.
 
-    icon_shape: the shape of icons in the output mosaic.
-        If not specified, use the shape of first image in `icons`.
+    icon_shape: 2-tuple, optional
+        The shape of icons in the output mosaic as `(num_rows, num_cols)`. If
+        not specified, use the shape of first image in `icons`.
 
-    border_size: the size of border.
+    border_size: int, optional
+        The size of border.
 
-    border_color: the color of border, black if not specified.
+    border_color: 3-tuple, optional
+        The color of border, black if not specified.
 
-    empty_color: the color for empty cells, black if not specified.
+    empty_color: 3-tuple, optional
+        The color for empty cells, black if not specified.
 
-    mosaic_shape: the shape of output mosaic.
-        If not specified, try to make a square mosaic according to number of
-        icons.
+    mosaic_shape: 2-tuple, optional
+        The shape of output mosaic as `(num_icons_per_row,
+        num_icons_per_col)`. If not specified, try to make a square mosaic
+        according to number of icons.
 
-    mosaic_dtype: the `dtype` of output mosaic.
+    mosaic_dtype: dtype
+        The data type of output mosaic.
 
     Returns
     -------

@@ -12,12 +12,14 @@ def impixelinfo(ax=None, image=None):
 
     Parameters
     ----------
-    ax: the axes that tracks cursor movement and prints pixel information.
+    ax: axes
+        The axes that tracks cursor movement and prints pixel information.
         We require the `ax.images` list to be non-empty, and if more than one
         images present in that list, we examine the last (newest) one. If not
         specified, default to 'plt.gca()'.
 
-    image: if specified, use this `image`'s pixel instead of `ax.images[-1]`'s.
+    image: ndarray
+        If specified, use this `image`'s pixel instead of `ax.images[-1]`'s.
         The replacement `image` must have the same dimension as `ax.images[-1]`,
         and we will still be using the `extent` of the latter when tracking
         cursor movement.
@@ -75,8 +77,9 @@ def axes_equal_3d(ax=None):
 
     Parameters
     ----------
-    ax: the axes whose x,y,z axis to be equalized.
-        If not specified, default to `plt.gca()`.
+    ax: axes, optional
+        The axes whose x,y,z axis to be equalized. If not specified, default to
+        `plt.gca()`.
 
     """
     # Set default 'ax' to 'plt.gca()'.
@@ -102,14 +105,17 @@ def implay(volume, fps=20, ax=None):
 
     Parameters
     ----------
-    volume: the video volume to be played.
-        Its size can be either MxNxK (for single-channel image per frame) or
-        MxNxCxK (for multi-channel image per frame).
+    volume: ndarray
+        The video volume to be played. Its size can be either MxNxK (for
+        single-channel image per frame) or MxNxCxK (for multi-channel image per
+        frame).
 
-    fps: the frame rate of the video.
+    fps: int, optional
+        The frame rate of the video.
 
-    ax: the axes in which the video to be played.
-        If not specified, default to `plt.gca()`.
+    ax: axes, optional
+        The axes in which the video to be played. If not specified, default to
+        `plt.gca()`.
 
     """
     if not ax:
@@ -126,23 +132,24 @@ def tight_subplot(num_rows, num_cols, plot_index,
 
     Parameters
     ----------
-    num_rows: number of rows.
+    num_rows, num_cols: int
+        Number of rows / columns.
 
-    num_cols: number of columns.
+    plot_index: int
+        The index to the subplot.
 
-    plot_index: the index to the subplot.
+    gap: float between (0,1), optional
+        The gap between axes, scalar or 2-tuple `(gap_h, gap_w)`.
 
-    gap: the gap between axes, scalar or 2-tuple `(gap_h, gap_w)`.
-        Value should be between (0, 1).
+    marg_h: float between (0,1), optional
+        The margins in height, scalar or 2-tuple `(lower, upper)`.
 
-    marg_h: the margins in height, scalar or 2-tuple `(lower, upper)`.
-        Value should be between (0, 1).
+    marg_w: float between (0,1), optional
+        The margins in width, scalar or 2-tuple `(left, right)`.
 
-    marg_w: the margins in width, scalar or 2-tuple `(left, right)`.
-        Value should be between (0, 1).
-
-    fig: figure to which the new axes to be added to
-        Default to `plt.gcf()` if not specified.
+    fig: Figure, optional
+        Figure to which the new axes to be added to. Default to `plt.gcf()` if
+        not specified.
 
     Returns
     -------
@@ -173,21 +180,24 @@ def imshow(ax, img, xlim=None, ylim=None, **kw):
 
     Parameters
     ----------
-    ax: the axes in which an image will be drawn.
+    ax: axes
+        The axes in which an image will be drawn.
 
-    img: the 2D image to be drawn.
+    img: ndarray
+        The 2D image to be drawn.
 
-    xlim, ylim: the horizontal coordinate limits of the image.
+    xlim, ylim: 2-tuple, optional
         This will set the `extent` parameter of `ax.imshow`, which is relatively
         inconvenient to set directly because of the half-pixel issue.
-        Default: (0, `num_cols`-1), (0, `num_rows`-1).
+        Default: `(0, num_cols-1)`, `(0, num_rows-1)`.
 
-    **kw: other parameters to be passed to `ax.imshow`.
-        The `extent` will be ignored if presented.
+    **kw: key-value pairs
+        Other parameters to be passed to `ax.imshow`. The `extent` will be
+        ignored if presented.
 
     Returns
     -------
-    None
+    The `AxesImage` returned by `ax.imshow`.
 
     """
     if not xlim:
@@ -205,7 +215,9 @@ def imshow(ax, img, xlim=None, ylim=None, **kw):
     ax.imshow(img, **kw)
 
 def draw_with_fixed_lims(ax, draw_fcn):
-    """Save the `xlim` and `ylim` of `ax` before a drawing action, and restore
+    """Perform plot without changing the `xlims` and `ylims` of the axes.
+
+    Save the `xlim` and `ylim` of `ax` before a drawing action, and restore
     them after the drawing. This is typically useful when one first does an
     `imshow` and then makes some annotation with `plot`, which will change the
     limits if not using this function.

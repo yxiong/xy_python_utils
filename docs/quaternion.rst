@@ -115,8 +115,8 @@ This conversion can be implemented with a single square root, but one needs to
 take special care on numerical stability when doing so.
 
 
-References
-----------
+API References
+--------------
 
 .. automodule:: quaternion
    :members:
