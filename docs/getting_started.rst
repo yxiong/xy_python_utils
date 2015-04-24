@@ -1,10 +1,6 @@
 Getting Started
 ===============
 
-Install prerequisites::
-
-  pip install -r requirements.txt
-
 Install this package in development mode::
 
   python setup.py develop
