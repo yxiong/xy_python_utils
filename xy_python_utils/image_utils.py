@@ -9,6 +9,93 @@ import math
 import numpy as np
 import PIL
 import scipy
+import scipy.misc
+
+def imcast(img, dtype, color_space="default"):
+    """Cast the input image to a given data type.
+
+    Parameters
+    ----------
+    img: ndarray
+        The input image.
+
+    dtype: np.dtype
+        The type that output image to be cast into.
+
+    color_space: string, optional
+        The color space of the input image, which affects the casting operation.
+
+    Returns
+    -------
+    The output image that is cast into `dtype`.
+
+    Notes
+    -----
+    * For `color_space=="default"`, we perform a linear scaling with following
+      range conventions:
+
+      * `np.uint8`: `[0, 255]`;
+      * `np.uint16`: `[0, 65535]`;
+      * `np.float32` and `np.float64`: `[0.0, 1.0]`.
+
+      For example, if the input `img` is of `np.uint8` type and the expected
+      `dtype` is `np.float32`, then the output will be
+      `np.asarray(img / 255., np.float32)`.
+
+    * For `color_space=="CIE-L*a*b*"`, the "normal" value ranges are
+      `0 <= L <= 100, -127 <= a, b <= 127`, and we perform the following cast:
+
+      * `np.uint8`: `L <- L * 255 / 100,  a <- a + 128,  b <- b + 128`;
+      * `np.uint16`: currently not supported;
+      * `np.float32` and `np.float64`: left as is.
+
+    """
+    if img.dtype == dtype:
+        return img
+    if color_space == "default":
+        if dtype == np.uint8:
+            if img.dtype == np.uint16:
+                return np.asarray(img / 257, np.uint8)
+            elif img.dtype == np.float32 or img.dtype == np.float64:
+                return np.asarray(img * 255., np.uint8)
+        elif dtype == np.uint16:
+            if img.dtype == np.uint8:
+                return np.asarray(img, np.uint16) * 257
+            elif img.dtype == np.float32 or img.dtype == np.float64:
+                return np.asarray(img * 65535., np.uint16)
+        elif dtype == np.float32 or dtype == np.float64:
+            if img.dtype == np.uint8:
+                return np.asarray(img, dtype) / 255.
+            elif img.dtype == np.uint16:
+                return np.asarray(img, dtype) / 65535.
+            elif img.dtype == np.float32 or img.dtype == np.float64:
+                return np.asarray(img, dtype)
+    elif color_space == "CIE-L*a*b*":
+        if dtype == np.uint8:
+            if img.dtype == np.float32 or img.dtype == np.float64:
+                dst = np.empty(img.shape, np.uint8)
+                dst[:,:,0] = img[:,:,0] * 255. / 100.
+                dst[:,:,1] = img[:,:,1] + 128.
+                dst[:,:,2] = img[:,:,2] + 128.
+                return dst
+        elif dtype == np.float32 or dtype == np.float64:
+            if img.dtype == np.uint8:
+                dst = np.empty(img.shape, dtype)
+                dst[:,:,0] = np.asarray(img[:,:,0], dtype) / 255. * 100.
+                dst[:,:,1] = np.asarray(img[:,:,1], dtype) - 128.
+                dst[:,:,2] = np.asarray(img[:,:,2], dtype) - 128.
+                return dst
+    raise Exception(
+        "Unexpected conversion from '%s' to '%s' with '%s' color space" % \
+        (img.dtype, dtype, color_space))
+
+def imread(filename, dtype=np.float32, color_space="default"):
+    """Read the image followed by an :py:func:`imcast`."""
+    return imcast(scipy.misc.imread(filename), dtype, color_space)
+
+def imwrite(filename, img, dtype=np.uint8, color_space="default"):
+    """Perform an :py:func:`imcast` before writing to the output file."""
+    return scipy.misc.imsave(filename, imcast(img, dtype, color_space))
 
 def imresize(img, size):
     """Resize the input image.
