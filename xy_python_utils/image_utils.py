@@ -7,9 +7,7 @@
 
 import math
 import numpy as np
-import PIL
-import scipy
-import scipy.misc
+from PIL import Image
 
 def imcast(img, dtype, color_space="default"):
     """Cast the input image to a given data type.
@@ -91,10 +89,12 @@ def imcast(img, dtype, color_space="default"):
 
 def imread(filename, dtype=np.float32, color_space="default"):
     """Read the image followed by an :py:func:`imcast`."""
-    return imcast(scipy.misc.imread(filename), dtype, color_space)
+    with open(filename, 'r') as fp:
+        return imcast(np.array(Image.open(fp)), dtype, color_space)
 
 def imwrite(filename, img, dtype=np.uint8, color_space="default"):
     """Perform an :py:func:`imcast` before writing to the output file."""
+    import scipy.misc
     return scipy.misc.imsave(filename, imcast(img, dtype, color_space))
 
 def imresize(img, size):
@@ -229,6 +229,6 @@ def image_size_from_file(filename):
     The 2-tuple for image size `(num_rows, num_cols)`.
 
     """
-    with PIL.Image.open(filename) as img:
+    with Image.open(filename) as img:
         width, height = img.size
     return height, width
