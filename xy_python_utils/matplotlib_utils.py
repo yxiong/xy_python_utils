@@ -100,7 +100,7 @@ def axes_equal_3d(ax=None):
     ax.set_ylim(y_mid - max_range/2.0, y_mid + max_range/2.0)
     ax.set_zlim(z_mid - max_range/2.0, z_mid + max_range/2.0)
 
-def implay(volume, fps=20, ax=None):
+def implay(volume, fps=20, ax=None, **kw):
     """Play a sequence of image in `volume` as a video.
 
     Parameters
@@ -117,13 +117,17 @@ def implay(volume, fps=20, ax=None):
         The axes in which the video to be played. If not specified, default to
         `plt.gca()`.
 
+    **kw: key-value pairs
+        Other parameters to be passed to `ax.imshow`, e.g. `cmap="gray"`,
+        `vmin=0`, `vmax=1`, etc.
+
     """
     if not ax:
         ax = plt.gca()
     num_frames = volume.shape[-1]
     for i in xrange(num_frames):
         ax.cla()
-        ax.imshow(volume[...,i])
+        ax.imshow(volume[...,i], **kw)
         plt.pause(1. / fps)
 
 def tight_subplot(num_rows, num_cols, plot_index,
