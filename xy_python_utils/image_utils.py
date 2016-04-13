@@ -145,9 +145,9 @@ def create_icon_mosaic(icons, icon_shape=None,
         A list of icons to be put together for mosaic. Currently we require all
         icons to be multi-channel images of the same size.
 
-    icon_shape: 2-tuple, optional
-        The shape of icons in the output mosaic as `(num_rows, num_cols)`. If
-        not specified, use the shape of first image in `icons`.
+    icon_shape: 3-tuple, optional
+        The shape of icons in the output mosaic as `(num_rows, num_cols, num_channels)`.
+        If  not specified, use the shape of first image in `icons`.
 
     border_size: int, optional
         The size of border.
