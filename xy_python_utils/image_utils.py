@@ -8,6 +8,7 @@
 import math
 import numpy as np
 from PIL import Image
+from PIL.Image import ROTATE_180, ROTATE_90, ROTATE_270, FLIP_TOP_BOTTOM, FLIP_LEFT_RIGHT
 
 def imcast(img, dtype, color_space="default"):
     """Cast the input image to a given data type.
@@ -87,10 +88,33 @@ def imcast(img, dtype, color_space="default"):
         "Unexpected conversion from '%s' to '%s' with '%s' color space" % \
         (img.dtype, dtype, color_space))
 
-def imread(filename, dtype=np.float32, color_space="default"):
+def imread(filename, dtype=np.uint8, color_space="default"):
     """Read the image followed by an :py:func:`imcast`."""
-    with open(filename, 'r') as fp:
-        return imcast(np.array(Image.open(fp)), dtype, color_space)
+    img = Image.open(filename)
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+    if hasattr(img, "_getexif"):
+        try:
+            exif = img._getexif() or {}
+        except IOError:
+            exif = {}
+        orientation = exif.get(0x0112)
+        if orientation:
+            # see http://park2.wakwak.com/~tsuruzoh/Computer/Digicams/exif-e.html
+            # for explanation of the magical constants
+            # or see http://jpegclub.org/exif_orientation.html for a nice visual explanation
+            # also, rotations are counter-clockwise in PIL
+            orientation = int(orientation)
+            rotation = [None, None, ROTATE_180, None, ROTATE_270, ROTATE_270, ROTATE_90, ROTATE_90]
+            flip = [None, FLIP_LEFT_RIGHT, None, FLIP_TOP_BOTTOM, FLIP_LEFT_RIGHT, None,
+                    FLIP_LEFT_RIGHT, None]
+            orientation0 = orientation - 1 # it's 1-indexed per the EXIF spec
+            if 0 <= orientation0 < len(rotation):
+                if rotation[orientation0] is not None:
+                    img = img.transpose(rotation[orientation0])
+                if flip[orientation0] is not None:
+                    img = img.transpose(flip[orientation0])
+    return imcast(np.array(img), dtype, color_space)
 
 def imwrite(filename, img, dtype=np.uint8, color_space="default"):
     """Perform an :py:func:`imcast` before writing to the output file."""

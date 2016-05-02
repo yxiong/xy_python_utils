@@ -43,7 +43,7 @@ class ImageUtilsTest(unittest.TestCase):
     def test_imread(self):
         tol = 1e-8
         img = scipy.misc.imread(testorig_jpg)
-        float32 = imread(testorig_jpg)
+        float32 = imread(testorig_jpg, np.float32)
         check_near(imcast(img, np.float32), float32, tol)
         uint8 = imread(testorig_jpg, np.uint8)
         self.assertEqual(np.sum(uint8 != img), 0)
