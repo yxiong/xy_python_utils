@@ -9,6 +9,7 @@ import math
 import numpy as np
 from PIL import Image
 from PIL.Image import ROTATE_180, ROTATE_90, ROTATE_270, FLIP_TOP_BOTTOM, FLIP_LEFT_RIGHT
+import skimage.transform
 
 def imcast(img, dtype, color_space="default"):
     """Cast the input image to a given data type.
@@ -148,15 +149,7 @@ def imresize(img, size):
     else:
         num_rows = int(round(img.shape[0] * size))
         num_cols = int(round(img.shape[1] * size))
-    try:
-        import cv2
-        return cv2.resize(img, (num_cols, num_rows))
-    except ImportError:
-        import scipy.ndimage
-        zoom = [float(num_rows)/img.shape[0], float(num_cols)/img.shape[1]]
-        if len(img.shape) == 3:
-            zoom.append(1.0)
-        return scipy.ndimage.interpolation.zoom(img, zoom)
+    return skimage.transform.resize(img, (num_rows, num_cols))
 
 def create_icon_mosaic(icons, icon_shape=None,
                        border_size=1, border_color=None, empty_color=None,
