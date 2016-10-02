@@ -7,7 +7,7 @@
 
 import math
 import numpy as np
-from PIL import Image
+import PIL.Image
 from PIL.Image import ROTATE_180, ROTATE_90, ROTATE_270, FLIP_TOP_BOTTOM, FLIP_LEFT_RIGHT
 import skimage.transform
 
@@ -91,7 +91,7 @@ def imcast(img, dtype, color_space="default"):
 
 def imread(filename, dtype=np.uint8, color_space="default"):
     """Read the image followed by an :py:func:`imcast`."""
-    img = Image.open(filename)
+    img = PIL.Image.open(filename)
     if img.mode != "RGB":
         img = img.convert("RGB")
     if hasattr(img, "_getexif"):
@@ -246,6 +246,6 @@ def image_size_from_file(filename):
     The 2-tuple for image size `(num_rows, num_cols)`.
 
     """
-    with Image.open(filename) as img:
+    with PIL.Image.open(filename) as img:
         width, height = img.size
     return height, width
