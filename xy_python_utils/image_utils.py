@@ -153,7 +153,7 @@ def imresize(img, size):
 
 def create_icon_mosaic(icons, icon_shape=None,
                        border_size=1, border_color=None, empty_color=None,
-                       mosaic_shape=None, mosaic_dtype=np.float):
+                       mosaic_shape=None, mosaic_dtype=float):
     """Create a mosaic of image icons.
 
     Parameters
