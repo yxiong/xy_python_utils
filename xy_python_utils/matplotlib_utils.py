@@ -34,7 +34,7 @@ def impixelinfo(ax=None, image=None):
         ax = plt.gca()
     # Examine the number of images in 'ax'.
     if len(ax.images) == 0:
-        print "No image in axes to visualize."
+        print("No image in axes to visualize.")
         return
     # Set default 'image' if not specified.
     if not image:
